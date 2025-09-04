@@ -1,29 +1,16 @@
 import React from 'react';
-import { Pause, Play, Trophy } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 import { GameState, GameStats } from '../types/game';
 
 interface GameUIProps {
   gameState: GameState;
   stats: GameStats;
-  onPause: () => void;
 }
 
-export const GameUI: React.FC<GameUIProps> = ({ gameState, stats, onPause }) => {
+export const GameUI: React.FC<GameUIProps> = ({ gameState, stats }) => {
   return (
     <div className="bg-gray-900 text-white p-6 rounded-lg shadow-xl">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-green-400">The Hungry Snake</h2>
-        <div>
-          <button
-            onClick={onPause}
-            disabled={gameState === GameState.GAME_OVER || gameState === GameState.READY}
-            className="flex items-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed rounded-lg transition-colors"
-          >
-            {gameState === GameState.PAUSED ? <Play size={16} /> : <Pause size={16} />}
-            {gameState === GameState.PAUSED ? 'Resume' : 'Pause'}
-          </button>
-        </div>
-      </div>
+      <h2 className="text-2xl font-bold text-green-400 mb-4">The Hungry Snake</h2>
 
       <div className="grid grid-cols-3 gap-4 mb-4">
         <div className="text-center">

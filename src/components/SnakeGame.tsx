@@ -127,7 +127,6 @@ export const SnakeGame: React.FC = () => {
         <GameUI
           gameState={gameState}
           stats={stats}
-          onPause={togglePause}
         />
       </div>
     </div>
