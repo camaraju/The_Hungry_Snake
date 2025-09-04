@@ -20,12 +20,13 @@ export const useGameState = () => {
   ]);
   const [food, setFood] = useState<Position>(getRandomPosition());
   const [direction, setDirection] = useState<Direction>(Direction.RIGHT);
-  const [gameState, setGameState] = useState<GameState>(GameState.PLAYING);
+  const [gameState, setGameState] = useState<GameState>(GameState.READY);
   const [stats, setStats] = useState<GameStats>({
     score: 0,
     highScore: parseInt(localStorage.getItem(STORAGE_KEY) || '0'),
     level: 1
   });
+  const [hasPlayedBefore, setHasPlayedBefore] = useState<boolean>(false);
 
   const generateFood = useCallback((currentSnake: Position[]): Position => {
     let newFood: Position;
@@ -87,6 +88,11 @@ export const useGameState = () => {
     setDirection(newDirection);
   }, [direction, gameState]);
 
+  const startGame = useCallback(() => {
+    setGameState(GameState.PLAYING);
+    setHasPlayedBefore(true);
+  }, []);
+
   const resetGame = useCallback(() => {
     const initialSnake = [
       { x: 10, y: 10 },
@@ -96,7 +102,7 @@ export const useGameState = () => {
     setSnake(initialSnake);
     setFood(generateFood(initialSnake));
     setDirection(Direction.RIGHT);
-    setGameState(GameState.PLAYING);
+    setGameState(GameState.READY);
     setStats(prev => ({ ...prev, score: 0, level: 1 }));
   }, [generateFood]);
 
@@ -112,8 +118,10 @@ export const useGameState = () => {
     direction,
     gameState,
     stats,
+    hasPlayedBefore,
     moveSnake,
     changeDirection,
+    startGame,
     resetGame,
     togglePause,
     gameSpeed: calculateSpeed(stats.level)
